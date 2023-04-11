@@ -27,13 +27,13 @@ library(knitr)
 # DATA PREPARATION -----
 guide = read.csv("guida_tol.csv",
                  header = T, sep = ",")
-data43 = read.csv("data/tol43_2023_04_04.csv", header = T, sep = ",")
+data43 = read.csv("data/tol43_2023_04_11.csv", header = T, sep = ",")
 data43 = merge(data43, guide)
 data43$code = 43
-data45 = read.csv("data/tol45_2023_04_04.csv", header = T, sep = ",")
+data45 = read.csv("data/tol45_2023_04_11.csv", header = T, sep = ",")
 data45 = merge(data45, guide)
 data45$code = 45
-data52 = read.csv("data/tol52_2023_04_04.csv", header = T, sep = ",")
+data52 = read.csv("data/tol52_2023_04_11.csv", header = T, sep = ",")
 data52 = merge(data52, guide)
 data52$code = 52
 
@@ -152,7 +152,10 @@ ggplot(item_char43,
   ylab("Pianification time (seconds)") + xlab("Item (Proportion correct)") + ggtitle(paste0("data ", item_char43$code[1])) + 
   scale_x_discrete(labels = c(round(item_char43[order(item_char43$prop), "prop"], 2))) + theme(
     legend.position = "bottom", 
-    axis.text.x=element_text(colour=item_char43[order(item_char43$prop), "col.lab"], size = 18, angle = 90)
+    axis.text.x=element_text(colour=item_char43[order(item_char43$prop), "col.lab"], size = 18, angle = 90), 
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18), 
+    axis.text = element_text(size = 18)
   ) 
 
 
@@ -178,7 +181,11 @@ ggplot(item_char52,
                                                                        item_char52$code[1])) + 
   scale_x_discrete(labels = c(round(item_char52[order(item_char52$prop), "prop"], 2))) + theme(
      legend.position = "bottom", 
-    axis.text.x=element_text(colour=item_char52[order(item_char52$prop), "col.lab"], size = 18, angle = 90)
+    axis.text.x=element_text(colour=item_char52[order(item_char52$prop), "col.lab"], size = 18, angle = 90), 
+    
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18), 
+    axis.text = element_text(size = 18)
   ) + guides(size = guide_legend(nrow = 1))
 ```
 
@@ -198,7 +205,11 @@ ggplot(item_char45,
   ylab("Pianification time (seconds)") + xlab("Item (Proportion correct)") + ggtitle(paste0("data ", item_char45$code[1])) + 
   scale_x_discrete(labels = c(round(item_char45[order(item_char45$prop), "prop"], 2))) + theme(
      legend.position = "bottom", 
-    axis.text.x=element_text(colour=item_char45[order(item_char45$prop), "col.lab"], size = 18, angle = 90)
+    axis.text.x=element_text(colour=item_char45[order(item_char45$prop), "col.lab"], size = 18, angle = 90),
+    
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18), 
+    axis.text = element_text(size = 18)
   ) 
 
 
@@ -223,8 +234,139 @@ for (i in 1:length(unique(unique(item_time_ce$code)))){
 
 ```
 
+## Divisione in quartili 
 
-## 43 
+```{r}
+cut.off = as.data.frame(aggregate(prop ~ code, item_char, quantile))
+cut.off.prop = data.frame(cut.off$prop)
+dimnames(cut.off.prop)[[1]] = cut.off$code
+
+temp = NULL
+item_ce_quartile = NULL
+
+for (i in 1:length(unique(unique(cut.off$code)))){
+  temp = item_time_ce[item_time_ce$code %in% unique(cut.off$code)[i], ]
+  temp$item.diff = ifelse(temp$prop < cut.off.prop[1, 2], 
+                          "molto.difficili", 
+                          ifelse(temp$prop > cut.off.prop[1, 2] & temp$prop < cut.off.prop[1, 3], 
+                                 "medio.difficili", 
+                                 ifelse(temp$prop > cut.off.prop[1, 3] & temp$prop < cut.off.prop[1, 4], 
+                                        "medio.facili", 
+                                        "molto.facili")))
+  item_ce_quartile = rbind(item_ce_quartile, temp)
+  assign(paste0("item_ce_quartile",unique(cut.off$code)[i]), 
+         temp)
+}
+
+
+
+
+summary_ce_quartile = item_ce_quartile %>%  
+  group_by(code, task_success, item.diff) %>%  
+  summarise(mean_pian = mean(mean.p), sd_pian = sd(sd.p))
+
+summary_ce_quartile$item.diff = factor(summary_ce_quartile$item.diff, 
+                                       levels = c("molto.difficili", 
+                                                  "medio.difficili", 
+                                                  "medio.facili", 
+                                                  "molto.facili"))
+summary_ce_quartile$code = factor(summary_ce_quartile$code, 
+                                  levels = c("43", "52", "45")) 
+
+
+
+for (i in 1:length(unique(unique(summary_ce_quartile$code)))){
+  assign(paste0("summary_ce_quartile",unique(summary_ce_quartile$code)[i]), 
+         summary_ce_quartile[summary_ce_quartile$code %in% unique(summary_ce_quartile$code)[i], ])
+}
+
+```
+
+### 43 
+
+```{r}
+ggplot(summary_ce_quartile43, 
+       aes(x = item.diff, 
+           y = as.numeric(mean_pian), color = task_success, 
+           linetype = task_success, 
+           group = task_success, 
+           shape = task_success)) + geom_point(size = 3) + geom_line(aes(y = mean_pian), size = 1) +
+  facet_wrap(~code) + 
+  theme_light() + ylab("Mean planning time (secs)") + 
+  xlab("") + 
+  theme(axis.text.x = element_text(angle = 90), 
+        axis.title = element_text(size = 18), 
+        axis.text = element_text(size = 18), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18))
+```
+
+### 52
+```{r}
+ggplot(summary_ce_quartile52, 
+       aes(x = item.diff, 
+           y = as.numeric(mean_pian), color = task_success, 
+           linetype = task_success, 
+           group = task_success, 
+           shape = task_success)) + geom_point(size = 3) + geom_line(aes(y = mean_pian), size = 1) +
+  facet_wrap(~code) + 
+  theme_light() + ylab("Mean planning time (secs)") + 
+  xlab("") + 
+  theme(axis.text.x = element_text(angle = 90), 
+        axis.title = element_text(size = 18), 
+        axis.text = element_text(size = 18), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18))
+```
+
+### 45 
+
+```{r}
+ggplot(summary_ce_quartile45, 
+       aes(x = item.diff, 
+           y = as.numeric(mean_pian), color = task_success, 
+           linetype = task_success, 
+           group = task_success, 
+           shape = task_success)) + geom_point(size = 3) + geom_line(aes(y = mean_pian), size = 1) +
+  facet_wrap(~code) + 
+  theme_light() + ylab("Mean planning time (secs)") + 
+  xlab("") + 
+  theme(axis.text.x = element_text(angle = 90), 
+        axis.title = element_text(size = 18), 
+        axis.text = element_text(size = 18), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18))
+```
+
+
+
+### Con le rispettive deviazoni standard: 
+
+```{r}
+ggplot(summary_ce_quartile, 
+       aes(x = item.diff, 
+           y = as.numeric(mean_pian), color = task_success, 
+           linetype = task_success, 
+           group = task_success, 
+           shape = task_success)) + geom_point(size = 3) + geom_line(aes(y = mean_pian), size = 1) + 
+  
+  geom_errorbar(aes(x = item.diff, 
+                    ymin = mean_pian - sd_pian, 
+                    ymax = mean_pian + sd_pian), 
+                width = .2) +
+  facet_wrap(~code) + 
+  theme_light() + ylab("Mean planning time (secs)") + 
+  xlab("") + 
+  theme(axis.text.x = element_text(angle = 90), 
+        axis.title = element_text(size = 18), 
+        axis.text = element_text(size = 18), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18))
+```
+
+## Dettaglio sui singoli Item
+
+### 43 
 
 ```{r}
 
@@ -239,7 +381,15 @@ ggplot(item_time_ce43,
                 color = task_success)) + theme_light() + 
   xlab("Item") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
                                                            item_time_ce43$code[1])) + 
-  scale_x_discrete(labels = c(round(item_char43[order(item_char43$prop), "prop"], 2))) 
+  scale_x_discrete(labels = c(round(item_char43[order(item_char43$prop), "prop"], 2))) + 
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18),
+    axis.text.x = element_text(angle = 90),
+    axis.text = element_text(size = 18)
+    
+  )
 
 
 # ggplot(item_time_ce43, 
@@ -260,7 +410,7 @@ ggplot(item_time_ce43,
 
 ```
 
-## 45 
+### 45 
 
 ```{r}
 item_time_ce45$npercorsi = as.factor(item_time_ce45$npercorsi)
@@ -274,10 +424,15 @@ ggplot(item_time_ce45,
                 color = task_success)) + theme_light() + 
   xlab("Item") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
                                                            item_time_ce45$code[1])) + 
-  scale_x_discrete(labels = c(round(item_char45[order(item_char45$prop), "prop"], 2))) + theme(
-    axis.text.x = element_text(angle = 90)
+  scale_x_discrete(labels = c(round(item_char45[order(item_char45$prop), "prop"], 2))) + 
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18),
+    axis.text.x = element_text(angle = 90),
+    axis.text = element_text(size = 18)
+    
   )
-
 
 # ggplot(item_time_ce45, 
 #        aes(x = reorder(id_question, prop), 
@@ -297,14 +452,14 @@ ggplot(item_time_ce45,
 
 ```
 
-## 52 
+### 52 
 
 ```{r}
 item_time_ce52$npercorsi = as.factor(item_time_ce52$npercorsi)
 ggplot(item_time_ce52, 
        aes(x = reorder(id_question, prop), 
            y = as.numeric(mean.p), color = task_success, 
-           shape = as.factor(npercorsi),
+           shape = npercorsi,
            group = task_success)) + 
   geom_point(aes(size =  nmosse)) + 
   geom_line(aes(y = as.numeric(mean.p), 
@@ -313,6 +468,14 @@ ggplot(item_time_ce52,
                                                            item_time_ce52$code[1])) + 
   scale_x_discrete(labels = c(round(item_char52[order(item_char52$prop), "prop"], 2))) + theme(
     axis.text.x = element_text(angle = 90)
+  ) + 
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(size = 18), 
+    legend.text = element_text(size = 18),
+    axis.text.x = element_text(angle = 90),
+    axis.text = element_text(size = 18)
+    
   )
 
 
@@ -331,25 +494,7 @@ ggplot(item_time_ce52,
 
 ```
 
-## Divisione in quartili 
 
-```{r}
-cut.off = aggregate(prop ~ code, item_char, quantile)
-
-item_time_ce = data[!data$task_success %in% "NULL", ] %>%  
-  group_by(id_question, task_success, code) %>% 
-  summarise(mean.p = mean(pianification, na.rm = T), sd.p = sd(pianification, na.rm = T))
-
-item_time_ce = merge(item_time_ce, guide)
-item_time_ce = merge(item_time_ce, item_correct)
-item_time_ce$npercorsi = as.factor(item_time_ce$npercorsi)
-for (i in 1:length(unique(unique(item_time_ce$code)))){
-  assign(paste0("item_time_ce",unique(item_time_ce$code)[i]), 
-         item_time_ce[item_time_ce$code %in% unique(item_time_ce$code)[i],])
-}
-
-
-```
 
 
 # Numero di mosse
@@ -359,17 +504,18 @@ item_ce_mosse =  item_time_ce %>%
   group_by(task_success, nmosse, code) %>% 
   summarize(mean.p = mean(mean.p))
 
-
 for (i in 1:length(unique(unique(item_ce_mosse$code)))){
   assign(paste0("item_ce_mosse",unique(item_ce_mosse$code)[i]), 
          item_ce_mosse[item_ce_mosse$code %in% unique(item_ce_mosse$code)[i],])
 }
+
 ```
 
 
 ## 43 
 
 ```{r}
+item_ce_mosse43$nmosse = factor(item_ce_mosse43$nmosse)
 ggplot(item_ce_mosse43, 
        aes(x = nmosse, 
            y = as.numeric(mean.p), color = task_success, 
@@ -377,29 +523,20 @@ ggplot(item_ce_mosse43,
   geom_point(size = 3) + 
   geom_line(aes(y = as.numeric(mean.p), 
                 color = task_success, 
-                linetype = task_success)) + theme_light() + 
+                linetype = task_success), 
+            size = 1) + theme_light() + 
   xlab("N mosse") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
-                                                           item_ce_mosse43$code[1]))
-```
-
-## 45
-
-```{r}
-ggplot(item_ce_mosse45, 
-       aes(x = nmosse, 
-           y = as.numeric(mean.p), color = task_success, 
-           group = task_success)) + 
-  geom_point(size = 3) + 
-  geom_line(aes(y = as.numeric(mean.p), 
-                color = task_success, 
-                linetype = task_success)) + theme_light() + 
-  xlab("N mosse") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
-                                                           item_ce_mosse45$code[1]))
+                                                           item_ce_mosse43$code[1])) + 
+  theme(axis.text = element_text(size = 18), 
+        axis.title = element_text(size = 18), 
+        legend.text = element_text(size = 18), 
+        legend.position = "bottom")
 ```
 
 ## 52
 
 ```{r}
+item_ce_mosse52$nmosse = factor(item_ce_mosse52$nmosse)
 ggplot(item_ce_mosse52, 
        aes(x = nmosse, 
            y = as.numeric(mean.p), color = task_success, 
@@ -409,7 +546,29 @@ ggplot(item_ce_mosse52,
                 color = task_success, 
                 linetype = task_success)) + theme_light() + 
   xlab("N mosse") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
-                                                           item_ce_mosse52$code[1]))
+                                                           item_ce_mosse52$code[1])) +   theme(axis.text = element_text(size = 18), 
+        axis.title = element_text(size = 18), 
+        legend.text = element_text(size = 18), 
+        legend.position = "bottom")
+```
+
+## 45
+
+```{r}
+item_ce_mosse45$nmosse = factor(item_ce_mosse45$nmosse)
+ggplot(item_ce_mosse45, 
+       aes(x = nmosse, 
+           y = as.numeric(mean.p), color = task_success, 
+           group = task_success)) + 
+  geom_point(size = 3) + 
+  geom_line(aes(y = as.numeric(mean.p), 
+                color = task_success, 
+                linetype = task_success)) + theme_light() + 
+  xlab("N mosse") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
+                                                           item_ce_mosse45$code[1])) +   theme(axis.text = element_text(size = 18), 
+        axis.title = element_text(size = 18), 
+        legend.text = element_text(size = 18), 
+        legend.position = "bottom")
 ```
 
 
