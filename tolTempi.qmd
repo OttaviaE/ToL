@@ -294,7 +294,7 @@ ggplot(summary_ce_quartile43,
   facet_wrap(~code) + 
   theme_light() + ylab("Mean planning time (secs)") + 
   xlab("") + 
-  theme(axis.text.x = element_text(angle = 90), 
+  theme(axis.text.x = element_text(angle = 45, vjust = .7), 
         axis.title = element_text(size = 18), 
         axis.text = element_text(size = 18), 
         legend.position = "bottom", 
@@ -312,7 +312,7 @@ ggplot(summary_ce_quartile52,
   facet_wrap(~code) + 
   theme_light() + ylab("Mean planning time (secs)") + 
   xlab("") + 
-  theme(axis.text.x = element_text(angle = 90), 
+  theme(axis.text.x = element_text(angle = 45, vjust = .7), 
         axis.title = element_text(size = 18), 
         axis.text = element_text(size = 18), 
         legend.position = "bottom", 
@@ -331,7 +331,7 @@ ggplot(summary_ce_quartile45,
   facet_wrap(~code) + 
   theme_light() + ylab("Mean planning time (secs)") + 
   xlab("") + 
-  theme(axis.text.x = element_text(angle = 90), 
+  theme(axis.text.x = element_text(angle = 45, vjust = .7), 
         axis.title = element_text(size = 18), 
         axis.text = element_text(size = 18), 
         legend.position = "bottom", 
@@ -357,7 +357,7 @@ ggplot(summary_ce_quartile,
   facet_wrap(~code) + 
   theme_light() + ylab("Mean planning time (secs)") + 
   xlab("") + 
-  theme(axis.text.x = element_text(angle = 90), 
+  theme(axis.text.x = element_text(angle = 45, vjust = .7), 
         axis.title = element_text(size = 18), 
         axis.text = element_text(size = 18), 
         legend.position = "bottom", 
