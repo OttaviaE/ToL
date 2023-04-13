@@ -375,10 +375,10 @@ ggplot(item_time_ce43,
        aes(x = reorder(id_question, prop), 
            y = as.numeric(mean.p), color = task_success, 
            shape = npercorsi,
-           group = task_success)) + 
+           group = task_success, linetype = task_success)) + 
   geom_point(aes(size =  nmosse)) + 
   geom_line(aes(y = as.numeric(mean.p), 
-                color = task_success)) + theme_light() + 
+                color = task_success), size = 1) + theme_light() + 
   xlab("Item") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
                                                            item_time_ce43$code[1])) + 
   scale_x_discrete(labels = c(round(item_char43[order(item_char43$prop), "prop"], 2))) + 
@@ -387,7 +387,8 @@ ggplot(item_time_ce43,
     axis.title = element_text(size = 18), 
     legend.text = element_text(size = 18),
     axis.text.x = element_text(angle = 90),
-    axis.text = element_text(size = 18)
+    axis.text = element_text(size = 18), 
+    legend.title = element_blank()
     
   )
 
@@ -418,10 +419,10 @@ ggplot(item_time_ce45,
        aes(x = reorder(id_question, prop), 
            y = as.numeric(mean.p), color = task_success, 
            shape = npercorsi,
-           group = task_success)) + 
+           group = task_success, linetype = task_success)) + 
   geom_point(aes(size =  nmosse)) +
   geom_line(aes(y = as.numeric(mean.p), 
-                color = task_success)) + theme_light() + 
+                color = task_success), size = 1) + theme_light() + 
   xlab("Item") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
                                                            item_time_ce45$code[1])) + 
   scale_x_discrete(labels = c(round(item_char45[order(item_char45$prop), "prop"], 2))) + 
@@ -430,7 +431,8 @@ ggplot(item_time_ce45,
     axis.title = element_text(size = 18), 
     legend.text = element_text(size = 18),
     axis.text.x = element_text(angle = 90),
-    axis.text = element_text(size = 18)
+    axis.text = element_text(size = 18), 
+    legend.title = element_blank()
     
   )
 
@@ -460,10 +462,10 @@ ggplot(item_time_ce52,
        aes(x = reorder(id_question, prop), 
            y = as.numeric(mean.p), color = task_success, 
            shape = npercorsi,
-           group = task_success)) + 
+           group = task_success, linetype = task_success)) + 
   geom_point(aes(size =  nmosse)) + 
   geom_line(aes(y = as.numeric(mean.p), 
-                color = task_success)) + theme_light() + 
+                color = task_success), size = 1) + theme_light() + 
   xlab("Item") + ylab("Pianfication Time") +ggtitle(paste0("data ", 
                                                            item_time_ce52$code[1])) + 
   scale_x_discrete(labels = c(round(item_char52[order(item_char52$prop), "prop"], 2))) + theme(
@@ -474,7 +476,8 @@ ggplot(item_time_ce52,
     axis.title = element_text(size = 18), 
     legend.text = element_text(size = 18),
     axis.text.x = element_text(angle = 90),
-    axis.text = element_text(size = 18)
+    axis.text = element_text(size = 18), 
+    legend.title = element_blank()
     
   )
 
@@ -572,3 +575,12 @@ ggplot(item_ce_mosse45,
 ```
 
 
+# Proposte 
+
+Due piani: 
+
+1. Taglio metodologico, estensione dei modelli Markoviani (MSP1 e MSP2) ai tempi di risposta
+
+2. Taglio applicativo: Analisi dei tempi di pianficazione considerando le diverse fasce di età 
+
+3. Idee?
