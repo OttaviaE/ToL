@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ottavia">
-<meta name="dcterms.date" content="2023-04-13">
+<meta name="dcterms.date" content="2023-05-29">
 
 <title>ToL Pianificazione</title>
 <style>
@@ -76,7 +76,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10">52</a></li>
   <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11">45</a></li>
   </ul></li>
-  <li><a href="#proposte" id="toc-proposte" class="nav-link" data-scroll-target="#proposte">Proposte</a></li>
   </ul>
 </nav>
 </div>
@@ -102,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 13, 2023</p>
+      <p class="date">May 29, 2023</p>
     </div>
   </div>
   
@@ -134,44 +133,58 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: center;">43</td>
 <td style="text-align: center;">F</td>
-<td style="text-align: center;">141</td>
-<td style="text-align: center;">302</td>
-<td style="text-align: center;">0.47</td>
+<td style="text-align: center;">172</td>
+<td style="text-align: center;">381</td>
+<td style="text-align: center;">0.45</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">43</td>
 <td style="text-align: center;">M</td>
-<td style="text-align: center;">161</td>
-<td style="text-align: center;">302</td>
-<td style="text-align: center;">0.53</td>
+<td style="text-align: center;">209</td>
+<td style="text-align: center;">381</td>
+<td style="text-align: center;">0.55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">237</td>
+<td style="text-align: center;">0.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">237</td>
+<td style="text-align: center;">0.00</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">45</td>
 <td style="text-align: center;">F</td>
-<td style="text-align: center;">47</td>
-<td style="text-align: center;">100</td>
-<td style="text-align: center;">0.47</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">M</td>
-<td style="text-align: center;">53</td>
-<td style="text-align: center;">100</td>
-<td style="text-align: center;">0.53</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">52</td>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;">143</td>
-<td style="text-align: center;">298</td>
-<td style="text-align: center;">0.48</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">52</td>
-<td style="text-align: center;">M</td>
-<td style="text-align: center;">155</td>
-<td style="text-align: center;">298</td>
+<td style="text-align: center;">124</td>
+<td style="text-align: center;">237</td>
 <td style="text-align: center;">0.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">M</td>
+<td style="text-align: center;">110</td>
+<td style="text-align: center;">237</td>
+<td style="text-align: center;">0.46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">206</td>
+<td style="text-align: center;">412</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">M</td>
+<td style="text-align: center;">206</td>
+<td style="text-align: center;">412</td>
+<td style="text-align: center;">0.50</td>
 </tr>
 </tbody>
 </table>
@@ -313,16 +326,124 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="tolTempi_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<!-- # Proposte  -->
+<!-- Due piani:  -->
+<!-- 1. Taglio metodologico, estensione dei modelli Markoviani (MSP1 e MSP2) ai tempi di risposta -->
+<!-- 2. Taglio applicativo: Analisi dei tempi di pianficazione considerando le diverse fasce di età  -->
+<!-- 3. Idee? -->
+<!-- # Dopo la pianficazione  -->
+<!-- ```{r} -->
+<!-- p = data[data$task_success %in% "True", ]  -->
+<!-- item_time_exc = p %>%   -->
+<!--   group_by(id_question, code) %>%  -->
+<!--   summarise(mean.exc = mean(execution, na.rm = T), sd.exc = sd(execution, na.rm = T), mean.p = mean(pianification)) -->
+<!-- item_char = merge(item_char,  -->
+<!--                   item_time_exc) -->
+<!-- for (i in 1:length(unique(unique(item_char$code)))){ -->
+<!--   assign(paste0("item_char",unique(item_char$code)[i]),  -->
+<!--          item_char[item_char$code %in% unique(item_char$code)[i],]) -->
+<!-- } -->
+<!-- item_time_exc =merge(item_time_exc, guide) -->
+<!-- ggplot(item_time_exc[item_time_exc$code %in% 43, ],  -->
+<!--        aes(x = reorder(id_question, mean.p),  -->
+<!--            y = as.numeric(mean.exc),  -->
+<!--            size = (nmosse),  -->
+<!--            shape = as.factor(npercorsi))) + geom_point() + theme_light()+  -->
+<!--   ylab("Mean execution time") + xlab("Mean planning time") + ggtitle(paste0("data ", item_char43$code[1])) +  -->
+<!--   scale_x_discrete(labels = c(round(item_char43[order(item_char43$mean.p), "mean.p"], 2))) + theme( -->
+<!--     legend.position = "bottom",  -->
+<!--     axis.text.x=element_text( size = 18, angle = 90),  -->
+<!--     axis.title = element_text(size = 18),  -->
+<!--     legend.text = element_text(size = 18),  -->
+<!--     axis.text = element_text(size = 18) -->
+<!--   )  -->
+<!-- ggplot(item_time_exc[item_time_exc$code %in% 52, ],  -->
+<!--        aes(x = reorder(id_question, mean.p),  -->
+<!--            y = as.numeric(mean.exc),  -->
+<!--            size = nmosse,  -->
+<!--            shape = as.factor(npercorsi))) + geom_point() + theme_light()+  -->
+<!--   ylab("Mean execution time") + xlab("Mean planning time") + ggtitle(paste0("data ", item_char52$code[1])) + theme( -->
+<!--     legend.position = "bottom",  -->
+<!--     axis.text.x=element_text( size = 18, angle = 90),  -->
+<!--     axis.title = element_text(size = 18),  -->
+<!--     legend.text = element_text(size = 18),  -->
+<!--     axis.text = element_text(size = 18) -->
+<!--   )  -->
+<!-- ggplot(item_time_exc[item_time_exc$code %in% 45, ],  -->
+<!--        aes(x = reorder(id_question, mean.p),  -->
+<!--            y = as.numeric(mean.exc),  -->
+<!--            size = nmosse,  -->
+<!--            shape = as.factor(npercorsi))) + geom_point() + theme_light()+  -->
+<!--   ylab("Mean execution time") + xlab("Mean planning time") + ggtitle(paste0("data ", item_char45$code[1])) +  -->
+<!--   scale_x_discrete(labels = c(round(item_char45[order(item_char45$mean.p), "mean.p"], 2))) + theme( -->
+<!--     legend.position = "bottom",  -->
+<!--     axis.text.x=element_text( size = 18, angle = 90),  -->
+<!--     axis.title = element_text(size = 18),  -->
+<!--     legend.text = element_text(size = 18),  -->
+<!--     axis.text = element_text(size = 18) -->
+<!--   )  -->
+<!-- ``` -->
+<!-- ## Lo faccio sulle persone  -->
+<!-- ```{r} -->
+<!-- data$execution = as.numeric(data$execution) -->
+<!-- sbj_pe = data %>%  -->
+<!--   group_by(code, id) %>%  -->
+<!--   summarize(plan = mean(pianification), sd.plan = sd(pianification),  -->
+<!--             exc = mean(execution), sd.exc = sd(execution)) -->
+<!-- ggplot(sbj_pe[sbj_pe$code %in% 43, ],  -->
+<!--        aes( x = reorder(id, plan),  -->
+<!--             y = exc)) + geom_point() -->
+<!-- ggplot(sbj_pe[sbj_pe$code %in% 52, ],  -->
+<!--        aes( x = reorder(id, plan),  -->
+<!--             y = exc)) + geom_point() -->
+<!-- ggplot(sbj_pe[sbj_pe$code %in% 45, ],  -->
+<!--        aes( x = reorder(id, plan),  -->
+<!--             y = exc)) + geom_point() -->
+<!-- ``` -->
+<!-- Divido in quartili  -->
+<!-- ```{r} -->
+<!-- q_plan = data %>%   -->
+<!--   group_by(code) %>%   -->
+<!--   reframe(q_plan = quantile(pianification, na.rm = T)) -->
+<!-- cut.off.plan.1 = as.data.frame(aggregate(pianification ~ code, data, quantile)) -->
+<!-- cut.off.plan = data.frame(cut.off.plan.1$pianification) -->
+<!-- dimnames(cut.off.plan)[[1]] = cut.off.plan.1$code -->
+<!-- temp = NULL -->
+<!-- speed_sbj = NULL -->
+<!-- for (i in 1:length(unique(unique(cut.off.plan.1$code)))){ -->
+<!--   temp = data[data$code %in% unique(cut.off.plan.1$code)[i], ] -->
+<!--   temp$sbj.speed = ifelse(temp$pianification < cut.off.plan[i, 2],  -->
+<!--                           "plan.molto.veloci",  -->
+<!--                           ifelse(temp$pianification > cut.off.plan[i, 2] & temp$pianification < cut.off.plan[i, 3],  -->
+<!--                                  "plan.medio.veloci",  -->
+<!--                                  ifelse(temp$pianification > cut.off.plan[i, 3] & temp$pianification < cut.off.plan[i, 4],  -->
+<!--                                         "plan.medio.lenti",  -->
+<!--                                         "plan.molto.lenti"))) -->
+<!--   speed_sbj = rbind(speed_sbj, temp) -->
+<!--   assign(paste0("speed_sbj",unique(cut.off.plan.1$code)[i]),  -->
+<!--          temp) -->
+<!-- } -->
+<!-- speed_sbj %>%   -->
+<!--   group_by(code, sbj.speed) %>%   -->
+<!--   summarise(mean.exc = mean(execution), sd.exc = sd(execution)) -->
+<!-- t = data[, c("id", "code", "yo")] -->
+<!-- t = t %>% distinct() -->
+<!-- p =data %>%  -->
+<!--   group_by(code, id) %>%  -->
+<!--   summarise(m.p = mean(pianification), m.e = mean(execution)) -->
+<!-- d = merge(t, p) -->
+<!-- d$yo = round(d$yo) -->
+<!-- ggplot(d[d$code %in% 43, ],  -->
+<!--        aes(x = yo, y = m.p)) + geom_point() + ylim(0,35) -->
+<!-- ggplot(d[d$code %in% 52, ],  -->
+<!--        aes(x = yo, y = m.p)) + geom_point() + ylim(0,35) -->
+<!-- ggplot(d[d$code %in% 45, ],  -->
+<!--        aes(x = yo, y = m.p)) + geom_point() + ylim(0,35) -->
+<!-- ggplot(d,  -->
+<!--        aes(x = yo, y = m.p, shape = as.factor(code))) +  -->
+<!--   geom_point(size = 2) + ylim(0,35) -->
+<!-- ``` -->
 </section>
-</section>
-<section id="proposte" class="level1">
-<h1>Proposte</h1>
-<p>Due piani:</p>
-<ol type="1">
-<li><p>Taglio metodologico, estensione dei modelli Markoviani (MSP1 e MSP2) ai tempi di risposta</p></li>
-<li><p>Taglio applicativo: Analisi dei tempi di pianficazione considerando le diverse fasce di età</p></li>
-<li><p>Idee?</p></li>
-</ol>
 </section>
 
 </main>
